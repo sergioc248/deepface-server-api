@@ -14,8 +14,8 @@ venv/
 .envrc
 node_modules/
 *.weights
-# Exclude all contents of known_faces
+# Ignore everything in known_faces
 app/known_faces/*
 
-# But keep the folder itself
-!app/known_faces/.gitkeep
+# But keep this specific image
+!app/known_faces/manface.jpg
