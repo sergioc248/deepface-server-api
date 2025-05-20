@@ -1,0 +1,21 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.*
+*.log
+*.sqlite3
+*.db
+*.DS_Store
+.idea/
+.vscode/
+venv/
+.envrc
+node_modules/
+*.weights
+# Exclude all contents of known_faces
+app/known_faces/*
+
+# But keep the folder itself
+!app/known_faces/.gitkeep
