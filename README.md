@@ -19,7 +19,7 @@ This project is a facial recognition API built with **FastAPI**, **DeepFace**, a
 ---
 
 ## 🧱 Project Structure
-
+```
 deepface-server-api/
 ├── app/
 │ ├── main.py # FastAPI app
@@ -28,7 +28,7 @@ deepface-server-api/
 ├── requirements.txt # Python dependencies
 ├── docker-compose.yml # Easy container setup
 └── README.md
-
+```
 
 ---
 
