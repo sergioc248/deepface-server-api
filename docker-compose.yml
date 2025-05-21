@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  deepface-api:
+    image: deepface-api-arm
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: deepface-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app/known_faces:/app/app/known_faces
+    restart: always
