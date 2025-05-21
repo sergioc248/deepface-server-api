@@ -19,14 +19,15 @@ This project is a facial recognition API built with **FastAPI**, **DeepFace**, a
 ---
 
 ## 🧱 Project Structure
+
 ```
 deepface-server-api/
 ├── app/
-│ ├── main.py # FastAPI app
-│ └── known_faces/ # Folder with stored face images
-├── Dockerfile # Container build
-├── requirements.txt # Python dependencies
-├── docker-compose.yml # Easy container setup
+│   ├── main.py                # FastAPI app
+│   └── known_faces/           # Folder with stored face images
+├── Dockerfile                 # Container build
+├── requirements.txt           # Python dependencies
+├── docker-compose.yml         # Easy container setup
 └── README.md
 ```
 
@@ -43,90 +44,108 @@ cd deepface-server-api
 
 ### 2. Build and start with Docker Compose
 
+```bash
 docker-compose up -d
+```
 
-This:
+This will:
+- Build the `deepface-api-arm` image
+- Map port `8000:8000`
+- Mount your local `app/known_faces/` folder into the container
+- Start automatically on reboot with `restart: always`
 
-    Builds the deepface-api-arm image
-
-    Maps port 8000:8000
-
-    Mounts your local app/known_faces/ folder into the container
-
-    Starts automatically on reboot with restart: always
+---
 
 ## 🔍 Using the API
+
 ### 📂 Add a Known Face
+
 #### Option A — Upload via API
 
+```bash
 curl -X POST http://<your-ec2-ip>:8000/add-face \
   -F "file=@manface.jpg" \
   -F "name=manface"
+```
 
 #### Option B — Copy directly into the known_faces folder
 
+```bash
 scp -i your-key.pem manface.jpg ubuntu@<ec2-ip>:~/deepface-server-api/app/known_faces/
+```
 
-    The app uses a watchdog to auto-load any .jpg or .png added to the folder.
+> The app uses a **watchdog** to auto-load any `.jpg` or `.png` added to the folder.
+
+---
 
 ### 🧪 Verify a Face Match
 
+```bash
 curl -X POST http://<your-ec2-ip>:8000/verify \
   -F "file=@test.jpg"
+```
 
 Example response:
 
+```json
 {
   "matched": true,
   "identity": "manface.jpg",
   "distance": 0.271
 }
+```
+
+---
 
 ### 🌐 Swagger UI
 
 Visit:
 
+```
 http://<your-ec2-ip>:8000/docs
+```
 
-Use the /verify and /add-face endpoints directly from your browser.
-⚙️ .gitignore and Image Handling
+Use the `/verify` and `/add-face` endpoints directly from your browser.
 
-The app/known_faces/ folder is included in the repo, but only manface.jpg is tracked:
+---
 
+## ⚙️ .gitignore and Image Handling
+
+The `app/known_faces/` folder is included in the repo, but only `manface.jpg` is tracked:
+
+```gitignore
 app/known_faces/*
 !app/known_faces/manface.jpg
+```
 
-You can replace manface.jpg with your default test image.
+You can replace `manface.jpg` with your default test image.
+
+---
+
 ## ✅ Auto-Start on EC2 Reboot
 
 The container is launched with:
 
+```bash
 --restart=always
+```
 
 So it will:
+- Restart on EC2 reboot
+- Restart if Docker crashes
 
-    Restart on EC2 reboot
-
-    Restart if Docker crashes
+---
 
 ## 🧠 Dependencies
 
 Installed via Docker:
 
-    deepface==0.0.93
-
-    fastapi
-
-    uvicorn
-
-    opencv-python-headless
-
-    pandas
-
-    numpy
-
-    scipy
-
-    watchdog
-
-    python-multipart
+- deepface==0.0.93
+- fastapi
+- uvicorn
+- opencv-python-headless
+- pandas
+- numpy
+- scipy
+- watchdog
+- python-multipart
